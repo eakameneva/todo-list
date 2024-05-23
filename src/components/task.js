@@ -1,33 +1,58 @@
-import React from "react";
+import React, { Component } from "react";
 import "./task.css";
-import NewTaskForm from "./newTaskForm";
+import NewTaskForm from "./NewTaskForm";
 
-const Task = (props) => {
-  const getClassName = (state) => {
-    switch (state) {
-      case "completed":
-        return "completed";
-      case "editing":
-        return "editing";
-      default:
-        return "normal";
-    }
+class Task extends Component {
+  onLabelClick = () => {
+    this.setState((state) => {
+      if (state.condition === "active")
+        return {
+          condition: "completed",
+        };
+      else
+        return {
+          condition: "active",
+        };
+    });
+  };
+  state = {
+    condition: "active",
   };
 
-  return (
-    <li className={getClassName(props.state)}>
-      <div className="view">
-        <input className="toggle" type="checkbox"></input>
-        <label>
-          <span className="description">{props.label}</span>
-          <span className="created">created 17 seconds ago</span>
-        </label>
-        <button className="icon icon-edit"></button>
-        <button className="icon icon-destroy"></button>
-      </div>
-      {props.state === "editing" && <NewTaskForm />}
-    </li>
-  );
-};
+  render() {
+    const { label, onDeleted } = this.props;
+    const { condition } = this.state;
+
+    const getClassName = (condition) => {
+      switch (condition) {
+        case "completed":
+          return "completed";
+        case "editing":
+          return "editing";
+        default:
+          return "active";
+      }
+    };
+
+    return (
+      <li className={getClassName(condition)}>
+        <div className="view">
+          <input
+            className="toggle"
+            type="checkbox"
+            onClick={this.onLabelClick}
+          ></input>
+          <label>
+            <span className="description">{label}</span>
+            <span className="created">created 17 seconds ago</span>
+          </label>
+          <button className="icon icon-edit"></button>
+          <button className="icon icon-destroy" onClick={onDeleted}></button>
+        </div>
+        {condition === "editing" && <NewTaskForm />}
+      </li>
+    );
+  }
+}
 
 export default Task;
