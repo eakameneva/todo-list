@@ -1,16 +1,16 @@
 import React from "react";
+import { Component } from "react";
+import NewTaskForm from "./NewTaskForm";
 
-const AppHeader = () => {
-  return (
-    <header className="header">
-      <h1>todos</h1>
-      <input
-        className="new-todo"
-        placeholder="What needs to be done?"
-        autofocus
-      ></input>
-    </header>
-  );
-};
+class AppHeader extends Component {
+  render() {
+    return (
+      <header className="header">
+        <h1>todos</h1>
+        <NewTaskForm onItemAdded={this.props.onItemAdded}></NewTaskForm>
+      </header>
+    );
+  }
+}
 
 export default AppHeader;

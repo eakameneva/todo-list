@@ -2,21 +2,26 @@ import React, { Component } from "react";
 import "./tasksFilter.css";
 
 class TasksFilter extends Component {
+  buttons = [
+    { name: "all", label: "All" },
+    { name: "active", label: "Active" },
+    { name: "completed", label: "Completed" },
+  ];
   render() {
-    return (
-      <ul className="filters">
-        <li>
-          <button className="selected">All</button>
-        </li>
-        <li>
+    const { activeTab, onFilterChange } = this.props;
+    const buttons = this.buttons.map(({ name, label }) => {
+      const isActive = activeTab === name;
+      const buttonClass = isActive ? "selected" : "btn";
+      return (
+        <li key={name}>
           {" "}
-          <button>Active</button>
+          <button className={buttonClass} onClick={() => onFilterChange(name)}>
+            {label}
+          </button>{" "}
         </li>
-        <li>
-          <button>Completed</button>
-        </li>
-      </ul>
-    );
+      );
+    });
+    return <ul className="filters">{buttons}</ul>;
   }
 }
 
