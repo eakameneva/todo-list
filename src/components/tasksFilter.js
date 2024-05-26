@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./tasksFilter.css";
+import "./TasksFilter.css";
 
 class TasksFilter extends Component {
   buttons = [

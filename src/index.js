@@ -16,9 +16,24 @@ class App extends Component {
   maxId = 4;
   state = {
     todoData: [
-      { label: "First task", id: 1, condition: "active" },
-      { label: "Editing task", id: 2, condition: "editing" },
-      { label: "Third task", id: 3, condition: "active" },
+      {
+        label: "First task",
+        id: 1,
+        condition: "active",
+        createdAt: Date.now(),
+      },
+      {
+        label: "Second task",
+        id: 2,
+        condition: "active",
+        createdAt: Date.now(),
+      },
+      {
+        label: "Third task",
+        id: 3,
+        condition: "active",
+        createdAt: Date.now(),
+      },
     ],
     tab: "all",
   };
@@ -33,11 +48,38 @@ class App extends Component {
       };
     });
   };
+  editItem = (id) => {
+    this.setState(({ todoData }) => {
+      const newArray = todoData.map((item) => {
+        if (id !== item.id) return item;
+
+        return { ...item, condition: "editing" };
+      });
+      return {
+        todoData: newArray,
+      };
+    });
+  };
+
+  onEditFormSubmit = (id, value) => {
+    this.setState(({ todoData }) => {
+      const newArray = todoData.map((item) => {
+        if (id !== item.id) return item;
+
+        return { ...item, label: value, condition: "active" };
+      });
+      return {
+        todoData: newArray,
+      };
+    });
+  };
+
   addItem = (text) => {
     const newItem = {
       label: text,
       id: this.maxId++,
       condition: "active",
+      createdAt: Date.now(),
     };
     this.setState(({ todoData }) => {
       const newArr = [...todoData, newItem];
@@ -110,7 +152,9 @@ class App extends Component {
           <TaskList
             todos={visibleItems}
             onDeleted={this.deleteItem}
+            onEdit={this.editItem}
             onToggleDone={this.onToggleDone}
+            onEditFormSubmit={this.onEditFormSubmit}
           />
           <Footer
             todo={todoCount}
