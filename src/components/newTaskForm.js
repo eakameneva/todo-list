@@ -1,5 +1,7 @@
 import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
+import "./NewTaskForm.css";
 
 class NewTaskForm extends Component {
   state = {
@@ -32,5 +34,9 @@ class NewTaskForm extends Component {
     );
   }
 }
+
+NewTaskForm.propTypes = {
+  onItemAdded: PropTypes.func,
+};
 
 export default NewTaskForm;

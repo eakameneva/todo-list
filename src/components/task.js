@@ -3,6 +3,7 @@ import { Component } from "react";
 import EditForm from "./EditForm";
 import "./Task.css";
 import { formatDistanceToNow } from "date-fns";
+import PropTypes from "prop-types";
 
 class Task extends Component {
   componentDidMount() {
@@ -47,5 +48,18 @@ class Task extends Component {
     );
   }
 }
+
+Task.propTypes = {
+  condition: PropTypes.string,
+  onToggleDone: PropTypes.func,
+  id: PropTypes.number,
+  label: PropTypes.string,
+  createdAt: PropTypes.number,
+  onEditFormSubmit: PropTypes.func,
+};
+
+Task.defaultProps = {
+  createdAt: Date.now(),
+};
 
 export default Task;

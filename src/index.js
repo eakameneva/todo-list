@@ -15,26 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 class App extends Component {
   maxId = 4;
   state = {
-    todoData: [
-      {
-        label: "First task",
-        id: 1,
-        condition: "active",
-        createdAt: Date.now(),
-      },
-      {
-        label: "Second task",
-        id: 2,
-        condition: "active",
-        createdAt: Date.now(),
-      },
-      {
-        label: "Third task",
-        id: 3,
-        condition: "active",
-        createdAt: Date.now(),
-      },
-    ],
+    todoData: [],
     tab: "all",
   };
 

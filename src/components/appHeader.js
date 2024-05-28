@@ -1,6 +1,8 @@
 import React from "react";
 import { Component } from "react";
 import NewTaskForm from "./NewTaskForm";
+import PropTypes from "prop-types";
+import "./AppHeader.css";
 
 class AppHeader extends Component {
   render() {
@@ -12,5 +14,8 @@ class AppHeader extends Component {
     );
   }
 }
+AppHeader.propTypes = {
+  onItemAdded: PropTypes.func,
+};
 
 export default AppHeader;

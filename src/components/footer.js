@@ -1,5 +1,7 @@
 import React from "react";
 import TasksFilter from "./TasksFilter";
+import PropTypes from "prop-types";
+import "./Footer.css";
 
 const Footer = ({ todo, onClearCompleted, activeTab, onFilterChange }) => {
   return (
@@ -14,6 +16,13 @@ const Footer = ({ todo, onClearCompleted, activeTab, onFilterChange }) => {
       </button>
     </footer>
   );
+};
+
+Footer.propTypes = {
+  todo: PropTypes.number,
+  onClearCompleted: PropTypes.func,
+  activeTab: PropTypes.string,
+  onFilterChange: PropTypes.func,
 };
 
 export default Footer;

@@ -1,3 +1,8 @@
-.todo-list .list-group-item {
-  padding: 0.25rem 0.75rem;
+.todo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.no-items {
+  padding: 10px 10px 10px 60px;
 }

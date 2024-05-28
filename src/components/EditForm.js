@@ -1,5 +1,7 @@
 import React from "react";
 import { Component } from "react";
+import PropTypes from "prop-types";
+import "./EditForm.css";
 
 class EditForm extends Component {
   state = {
@@ -32,8 +34,10 @@ class EditForm extends Component {
       </form>
     );
   }
-
-  //   onSubmit={(event) => onEditFormSubmit(id, event.target.value)}
 }
+
+EditForm.propTypes = {
+  id: PropTypes.number,
+};
 
 export default EditForm;

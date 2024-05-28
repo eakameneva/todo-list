@@ -1,6 +1,7 @@
 import React from "react";
 import Task from "./Task";
-// import "./taskList.css";
+import PropTypes from "prop-types";
+import "./TaskList.css";
 
 const TaskList = ({
   todos,
@@ -24,7 +25,19 @@ const TaskList = ({
       ></Task>
     );
   });
+
+  if (todos.length === 0) {
+    return <div className="no-items">No items added</div>;
+  }
   return <ul className="todo-list">{elements}</ul>;
+};
+
+TaskList.propTypes = {
+  todos: PropTypes.array,
+  onDeleted: PropTypes.func,
+  onEdit: PropTypes.func,
+  onEditFormSubmit: PropTypes.func,
+  onToggleDone: PropTypes.func,
 };
 
 export default TaskList;
