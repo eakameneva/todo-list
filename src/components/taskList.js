@@ -1,15 +1,9 @@
-import React from "react";
-import Task from "./Task";
-import PropTypes from "prop-types";
-import "./TaskList.css";
+import React from 'react';
+import Task from './Task';
+import PropTypes from 'prop-types';
+import './TaskList.css';
 
-const TaskList = ({
-  todos,
-  onDeleted,
-  onEdit,
-  onEditFormSubmit,
-  onToggleDone,
-}) => {
+const TaskList = ({ todos, onDeleted, onEdit, onEditFormSubmit, onToggleDone }) => {
   const elements = todos.map((item) => {
     return (
       <Task

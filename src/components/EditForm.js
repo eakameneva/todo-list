@@ -1,11 +1,11 @@
-import React from "react";
-import { Component } from "react";
-import PropTypes from "prop-types";
-import "./EditForm.css";
+import React from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import './EditForm.css';
 
 class EditForm extends Component {
   state = {
-    label: "",
+    label: '',
   };
   onLabelChange = (event) => {
     this.setState({
@@ -17,7 +17,7 @@ class EditForm extends Component {
     event.preventDefault();
     this.props.onEditFormSubmit(this.props.id, this.state.label);
     this.setState({
-      label: "",
+      label: '',
     });
   };
   render() {
