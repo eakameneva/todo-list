@@ -1,134 +1,139 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import AppHeader from './components/AppHeader';
-import TaskList from './components/TaskList';
-import Footer from './components/Footer';
-import { Component } from 'react';
-import './index.css';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom/client'
 
-// import './index.css';
-// import App from './App';
+import { AppHeader } from './components/AppHeader'
+import { TaskList } from './components/TaskList'
+import Footer from './components/Footer'
+import './index.css'
+
 // import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 
 class App extends Component {
-  maxId = 4;
-  state = {
-    todoData: [],
-    tab: 'all',
-  };
+  constructor(props) {
+    super(props)
+    this.maxId = 4
+    this.state = {
+      todoData: [],
+      tab: 'all',
+    }
+    this.deleteItem = this.deleteItem.bind(this)
+    this.editItem = this.editItem.bind(this)
+    this.onEditFormSubmit = this.onEditFormSubmit.bind(this)
+    this.addItem = this.addItem.bind(this)
+    this.onToggleDone = this.onToggleDone.bind(this)
+    this.clearCompleted = this.clearCompleted.bind(this)
+    this.onFilterChange = this.onFilterChange.bind(this)
+  }
 
-  deleteItem = (id) => {
+  deleteItem(id) {
     this.setState(({ todoData }) => {
       const newArray = todoData.filter((item) => {
-        return item.id !== id;
-      });
+        return item.id !== id
+      })
       return {
         todoData: newArray,
-      };
-    });
-  };
-  editItem = (id) => {
+      }
+    })
+  }
+
+  editItem(id) {
     this.setState(({ todoData }) => {
       const newArray = todoData.map((item) => {
-        if (id !== item.id) return item;
-
-        return { ...item, condition: 'editing' };
-      });
+        if (id !== item.id) return item
+        return { ...item, condition: 'editing' }
+      })
       return {
         todoData: newArray,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  onEditFormSubmit = (id, value) => {
+  onEditFormSubmit(id, value) {
     this.setState(({ todoData }) => {
       const newArray = todoData.map((item) => {
-        if (id !== item.id) return item;
-
-        return { ...item, label: value, condition: 'active' };
-      });
+        if (id !== item.id) return item
+        return { ...item, label: value, condition: 'active' }
+      })
       return {
         todoData: newArray,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  addItem = (text) => {
+  addItem(text) {
     const newItem = {
       label: text,
       id: this.maxId++,
       condition: 'active',
       createdAt: Date.now(),
-    };
+    }
     this.setState(({ todoData }) => {
-      const newArr = [...todoData, newItem];
+      const newArr = [...todoData, newItem]
       return {
         todoData: newArr,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  onToggleDone = (id) => {
+  onToggleDone(id) {
     this.setState(({ todoData }) => {
       const newArray = todoData.map((item) => {
-        if (id !== item.id) return item;
-
+        if (id !== item.id) return item
         if (item.condition === 'active') {
-          return { ...item, condition: 'completed' };
+          return { ...item, condition: 'completed' }
         }
-
-        return { ...item, condition: 'active' };
-      });
+        return { ...item, condition: 'active' }
+      })
       return {
         todoData: newArray,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  clearCompleted = () => {
+  clearCompleted() {
     this.setState(({ todoData }) => {
       const newArray = todoData.filter((item) => {
-        return item.condition !== 'completed';
-      });
+        return item.condition !== 'completed'
+      })
       return {
         todoData: newArray,
-      };
-    });
-  };
+      }
+    })
+  }
 
-  onFilterChange = (tab) => {
+  onFilterChange(tab) {
     this.setState({
       tab: tab,
-    });
-  };
+    })
+  }
 
   filter(items, tab) {
     switch (tab) {
       case 'all':
-        return items;
+        return items
       case 'active':
         return items.filter((item) => {
-          return item.condition === 'active';
-        });
+          return item.condition === 'active'
+        })
       case 'completed':
         return items.filter((item) => {
-          return item.condition === 'completed';
-        });
+          return item.condition === 'completed'
+        })
       default:
-        return items;
+        return items
     }
   }
 
   render() {
     const todoCount = this.state.todoData.filter((item) => {
-      return item.condition === 'active';
-    }).length;
-    const visibleItems = this.filter(this.state.todoData, this.state.tab);
+      return item.condition === 'active'
+    }).length
+    const visibleItems = this.filter(this.state.todoData, this.state.tab)
     return (
-      <div className="todoapp">
-        <section className="main">
+      <div className='todoapp'>
+        <section className='main'>
           <AppHeader onItemAdded={this.addItem} />
           <TaskList
             todos={visibleItems}
@@ -145,8 +150,8 @@ class App extends Component {
           />
         </section>
       </div>
-    );
+    )
   }
 }
 
-root.render(<App></App>);
+root.render(<App></App>)

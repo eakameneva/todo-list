@@ -9,24 +9,26 @@
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended",
-    "prettier",
     "plugin:prettier/recommended"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    },
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "import", "react-hooks", "jsx-a11y"],
+  "plugins": ["react", "import", "react-hooks", "jsx-a11y"],
   "rules": {
-    "indent": ["error", 2],
-    "prettier/prettier": "error",
+
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-single"],
     "semi": ["error", "never"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,

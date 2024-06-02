@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class EditForm extends Component {
+class NewTaskForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,22 +15,19 @@ class EditForm extends Component {
       label: event.target.value,
     })
   }
-
   onSubmit(event) {
     event.preventDefault()
-    this.props.onEditFormSubmit(this.props.id, this.state.label)
+    this.props.onItemAdded(this.state.label)
     this.setState({
       label: '',
     })
   }
-
   render() {
     return (
       <form onSubmit={this.onSubmit}>
         <input
-          type='text'
-          className='edit'
-          placeholder='Editing'
+          className='new-todo'
+          placeholder='What needs to be done?'
           autoFocus
           onChange={this.onLabelChange}
           value={this.state.label}
@@ -40,8 +37,8 @@ class EditForm extends Component {
   }
 }
 
-EditForm.propTypes = {
-  id: PropTypes.number,
+NewTaskForm.propTypes = {
+  onItemAdded: PropTypes.func,
 }
 
-export default EditForm
+export default NewTaskForm
