@@ -18,6 +18,10 @@ class EditForm extends Component {
 
   onSubmit(event) {
     event.preventDefault()
+    const trimmedLabel = this.state.label.trim()
+    if (trimmedLabel === '') {
+      return
+    }
     this.props.onEditFormSubmit(this.props.id, this.state.label)
     this.setState({
       label: '',

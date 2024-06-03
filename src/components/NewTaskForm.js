@@ -17,6 +17,10 @@ class NewTaskForm extends Component {
   }
   onSubmit(event) {
     event.preventDefault()
+    const trimmedLabel = this.state.label.trim()
+    if (trimmedLabel === '') {
+      return
+    }
     this.props.onItemAdded(this.state.label)
     this.setState({
       label: '',
