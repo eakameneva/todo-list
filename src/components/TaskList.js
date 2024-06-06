@@ -4,22 +4,20 @@ import PropTypes from 'prop-types'
 import Task from './Task'
 import './TaskList.css'
 
-export const TaskList = ({ todos, onDeleted, onEdit, onEditFormSubmit, onToggleDone }) => {
-  const elements = todos.map((item) => {
-    return (
-      <Task
-        key={item.id}
-        id={item.id}
-        createdAt={item.createdAt}
-        label={item.label}
-        condition={item.condition}
-        onDeleted={onDeleted}
-        onEdit={onEdit}
-        onEditFormSubmit={onEditFormSubmit}
-        onToggleDone={onToggleDone}
-      ></Task>
-    )
-  })
+export default function TaskList({ todos, onDeleted, onEdit, onEditFormSubmit, onToggleDone }) {
+  const elements = todos.map((item) => (
+    <Task
+      key={item.id}
+      id={item.id}
+      createdAt={item.createdAt}
+      label={item.label}
+      condition={item.condition}
+      onDeleted={onDeleted}
+      onEdit={onEdit}
+      onEditFormSubmit={onEditFormSubmit}
+      onToggleDone={onToggleDone}
+    />
+  ))
   if (todos.length === 0) {
     return <div className='no-items'>No items added</div>
   }
@@ -27,9 +25,9 @@ export const TaskList = ({ todos, onDeleted, onEdit, onEditFormSubmit, onToggleD
 }
 
 TaskList.propTypes = {
-  todos: PropTypes.array,
-  onDeleted: PropTypes.func,
-  onEdit: PropTypes.func,
-  onEditFormSubmit: PropTypes.func,
-  onToggleDone: PropTypes.func,
+  todos: PropTypes.instanceOf(Array).isRequired,
+  onDeleted: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onEditFormSubmit: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
 }

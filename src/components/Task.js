@@ -9,42 +9,48 @@ class Task extends Component {
   componentDidMount() {
     this.interval = setInterval(() => this.forceUpdate(), 60000)
   }
+
   componentWillUnmount() {
     clearInterval(this.interval)
   }
 
   render() {
+    const { condition, onToggleDone, id, label, createdAt, onEdit, onDeleted, onEditFormSubmit } = this.props
     return (
-      <li className={this.props.condition}>
+      <li className={condition}>
         <div className='view'>
           <input
             className='toggle'
             type='checkbox'
-            checked={this.props.condition === 'completed'}
-            onChange={() => this.props.onToggleDone(this.props.id)}
-          ></input>
+            checked={condition === 'completed'}
+            onChange={() => onToggleDone(id)}
+          />
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label>
-            <span className='description'>{this.props.label}</span>
-            <span className='created'>created {formatDistanceToNow(this.props.createdAt)} ago</span>
+            <span className='description'>{label}</span>
+            <span className='created'>
+              created
+              {formatDistanceToNow(createdAt)} ago
+            </span>
           </label>
-          <button className='icon icon-edit' onClick={() => this.props.onEdit(this.props.id)}></button>
-          <button className='icon icon-destroy' onClick={() => this.props.onDeleted(this.props.id)}></button>
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+          <button type='button' className='icon icon-edit' onClick={() => onEdit(id)} />
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+          <button type='button' className='icon icon-destroy' onClick={() => onDeleted(id)} />
         </div>
-        {this.props.condition === 'editing' && (
-          <EditForm onEditFormSubmit={this.props.onEditFormSubmit} id={this.props.id}></EditForm>
-        )}
+        {condition === 'editing' && <EditForm onEditFormSubmit={onEditFormSubmit} id={id} />}
       </li>
     )
   }
 }
 
 Task.propTypes = {
-  condition: PropTypes.string,
-  onToggleDone: PropTypes.func,
-  id: PropTypes.number,
-  label: PropTypes.string,
+  condition: PropTypes.string.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
   createdAt: PropTypes.number,
-  onEditFormSubmit: PropTypes.func,
+  onEditFormSubmit: PropTypes.func.isRequired,
 }
 
 Task.defaultProps = {

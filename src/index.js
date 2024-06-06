@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { AppHeader } from './components/AppHeader'
-import { TaskList } from './components/TaskList'
+import AppHeader from './components/AppHeader'
+import TaskList from './components/TaskList'
 import Footer from './components/Footer'
 import './index.css'
 
@@ -27,11 +27,10 @@ class App extends Component {
     this.onFilterChange = this.onFilterChange.bind(this)
   }
 
+  // eslint-disable-next-line react/sort-comp
   deleteItem(id) {
     this.setState(({ todoData }) => {
-      const newArray = todoData.filter((item) => {
-        return item.id !== id
-      })
+      const newArray = todoData.filter((item) => item.id !== id)
       return {
         todoData: newArray,
       }
@@ -65,7 +64,7 @@ class App extends Component {
   addItem(text) {
     const newItem = {
       label: text,
-      id: this.maxId++,
+      id: this.maxId + 1,
       condition: 'active',
       createdAt: Date.now(),
     }
@@ -94,9 +93,7 @@ class App extends Component {
 
   clearCompleted() {
     this.setState(({ todoData }) => {
-      const newArray = todoData.filter((item) => {
-        return item.condition !== 'completed'
-      })
+      const newArray = todoData.filter((item) => item.condition !== 'completed')
       return {
         todoData: newArray,
       }
@@ -105,32 +102,29 @@ class App extends Component {
 
   onFilterChange(tab) {
     this.setState({
-      tab: tab,
+      tab,
     })
   }
 
+  // eslint-disable-next-line class-methods-use-this
   filter(items, tab) {
     switch (tab) {
       case 'all':
         return items
+
       case 'active':
-        return items.filter((item) => {
-          return item.condition === 'active'
-        })
+        return items.filter((item) => item.condition === 'active')
       case 'completed':
-        return items.filter((item) => {
-          return item.condition === 'completed'
-        })
+        return items.filter((item) => item.condition === 'completed')
       default:
         return items
     }
   }
 
   render() {
-    const todoCount = this.state.todoData.filter((item) => {
-      return item.condition === 'active'
-    }).length
-    const visibleItems = this.filter(this.state.todoData, this.state.tab)
+    const { todoData, tab } = this.state
+    const todoCount = todoData.filter((item) => item.condition === 'active').length
+    const visibleItems = this.filter(todoData, tab)
     return (
       <div className='todoapp'>
         <section className='main'>
@@ -145,7 +139,7 @@ class App extends Component {
           <Footer
             todo={todoCount}
             onClearCompleted={this.clearCompleted}
-            activeTab={this.state.tab}
+            activeTab={tab}
             onFilterChange={this.onFilterChange}
           />
         </section>
@@ -154,4 +148,4 @@ class App extends Component {
   }
 }
 
-root.render(<App></App>)
+root.render(<App />)

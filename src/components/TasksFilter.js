@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './TasksFilter.css'
 import PropTypes from 'prop-types'
 
-export class TasksFilter extends Component {
+export default class TasksFilter extends Component {
   constructor(props) {
     super(props)
     this.buttons = [
@@ -11,6 +11,7 @@ export class TasksFilter extends Component {
       { name: 'completed', label: 'Completed' },
     ]
   }
+
   render() {
     const { activeTab, onFilterChange } = this.props
     const buttons = this.buttons.map(({ name, label }) => {
@@ -19,7 +20,7 @@ export class TasksFilter extends Component {
       return (
         <li key={name}>
           {' '}
-          <button className={buttonClass} onClick={() => onFilterChange(name)}>
+          <button type='button' className={buttonClass} onClick={() => onFilterChange(name)}>
             {label}
           </button>{' '}
         </li>
@@ -31,7 +32,7 @@ export class TasksFilter extends Component {
 
 TasksFilter.propTypes = {
   activeTab: PropTypes.string,
-  onFilterChange: PropTypes.func,
+  onFilterChange: PropTypes.func.isRequired,
 }
 TasksFilter.defaultProps = {
   activeTab: 'all',

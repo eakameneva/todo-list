@@ -10,6 +10,7 @@ class EditForm extends Component {
     this.onLabelChange = this.onLabelChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
+
   onLabelChange(event) {
     this.setState({
       label: event.target.value,
@@ -18,34 +19,30 @@ class EditForm extends Component {
 
   onSubmit(event) {
     event.preventDefault()
-    const trimmedLabel = this.state.label.trim()
+    const { label } = this.state
+    const trimmedLabel = label.trim()
     if (trimmedLabel === '') {
       return
     }
-    this.props.onEditFormSubmit(this.props.id, this.state.label)
+    const { onEditFormSubmit, id } = this.props
+    onEditFormSubmit(id, label)
     this.setState({
       label: '',
     })
   }
 
   render() {
+    const { label } = this.state
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          type='text'
-          className='edit'
-          placeholder='Editing'
-          autoFocus
-          onChange={this.onLabelChange}
-          value={this.state.label}
-        ></input>
+        <input type='text' className='edit' placeholder='Editing' onChange={this.onLabelChange} value={label} />
       </form>
     )
   }
 }
 
 EditForm.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.number.isRequired,
 }
 
 export default EditForm

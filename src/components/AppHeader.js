@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import NewTaskForm from './NewTaskForm'
 import './AppHeader.css'
 
-export class AppHeader extends Component {
-  render() {
-    return (
-      <header className='header'>
-        <h1>todos</h1>
-        <NewTaskForm onItemAdded={this.props.onItemAdded} />
-      </header>
-    )
-  }
+function AppHeader({ onItemAdded }) {
+  return (
+    <header className='header'>
+      <h1>todos</h1>
+      <NewTaskForm onItemAdded={onItemAdded} />
+    </header>
+  )
 }
+
 AppHeader.propTypes = {
-  onItemAdded: PropTypes.func,
+  onItemAdded: PropTypes.func.isRequired,
 }
+export default AppHeader
