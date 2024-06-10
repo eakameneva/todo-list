@@ -9,8 +9,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings",
-    "prettier"
+    "plugin:import/warnings"
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
@@ -24,16 +23,18 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "import", "react-hooks", "jsx-a11y", "prettier"],
+  "plugins": ["react", "import", "react-hooks", "jsx-a11y"],
   "rules": {
-    "prettier/prettier": "error",
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
     "jsx-quotes": ["error", "prefer-single"],
+    "object-curly-newline": "off",
     "semi": ["error", "never"],
+    "max-len": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
     "import/no-unresolved": [2, { "caseSensitive": false }],
+    "react/jsx-one-expression-per-line": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/order": [
       2,
