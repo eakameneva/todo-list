@@ -6,10 +6,7 @@
   "ignorePatterns": ["node_modules", "dist", "build"],
   "extends": [
     "airbnb",
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings"
+    "prettier"
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
@@ -31,7 +28,7 @@
     "object-curly-newline": "off",
     "semi": ["error", "never"],
     "max-len": "off",
-    "react/react-in-jsx-scope": "off",
+
     "react/prop-types": 0,
     "import/no-unresolved": [2, { "caseSensitive": false }],
     "react/jsx-one-expression-per-line": "off",
