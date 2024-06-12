@@ -25,13 +25,10 @@
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
     "jsx-quotes": ["error", "prefer-single"],
-    "object-curly-newline": "off",
     "semi": ["error", "never"],
-    "max-len": "off",
-
+    "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
     "import/no-unresolved": [2, { "caseSensitive": false }],
-    "react/jsx-one-expression-per-line": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/order": [
       2,
