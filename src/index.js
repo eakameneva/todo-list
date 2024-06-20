@@ -101,26 +101,6 @@ class App extends Component {
     })
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  visibleItems(condition, tab) {
-    if (condition === 'editing') {
-      return 'editing'
-    }
-    if (tab === 'all') {
-      return ''
-    }
-    if (condition === 'active' && tab === 'active') {
-      return ''
-    }
-    if (condition === 'completed' && tab === 'active') {
-      return 'hidden'
-    }
-    if (condition === 'completed') {
-      return 'completed'
-    }
-    return 'hidden'
-  }
-
   addItem(text, min, sec) {
     const newItem = {
       label: text,
@@ -154,7 +134,6 @@ class App extends Component {
             onEscInEditForm={this.onEscInEditForm}
             onToggleDone={this.onToggleDone}
             onEditFormSubmit={this.onEditFormSubmit}
-            visibleItems={this.visibleItems}
           />
           <Footer
             todo={todoCount}

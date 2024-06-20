@@ -5,6 +5,14 @@ import Task from './Task'
 import './TaskList.css'
 import EditForm from './EditForm'
 
+const isItemVisible = (activeTab, condition) => {
+  if (activeTab === 'all' || activeTab === 'editing') {
+    return true
+  }
+
+  return activeTab === condition
+}
+
 export default function TaskList({
   todos,
   activeTab,
@@ -13,10 +21,9 @@ export default function TaskList({
   onEditFormSubmit,
   onToggleDone,
   onEscInEditForm,
-  visibleItems,
 }) {
   const elements = todos.map((item) => (
-    <li className={visibleItems(item.condition, activeTab)} key={item.id}>
+    <li className={`${item.condition}${isItemVisible(activeTab, item.condition) ? '' : ' hidden'}`} key={item.id}>
       <Task
         id={item.id}
         createdAt={item.createdAt}
