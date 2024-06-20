@@ -3,7 +3,7 @@ import './Task.css'
 import { formatDistanceToNow } from 'date-fns'
 import PropTypes from 'prop-types'
 
-import EditForm from './EditForm'
+import Timer from './Timer'
 
 class Task extends Component {
   componentDidMount() {
@@ -15,31 +15,24 @@ class Task extends Component {
   }
 
   render() {
-    const { condition, onToggleDone, id, label, createdAt, onEdit, onDeleted, onEditFormSubmit } = this.props
+    const { condition, onToggleDone, id, label, createdAt, onEdit, onDeleted, seconds, minutes } = this.props
     return (
-      <li className={condition}>
-        <div className='view'>
-          <input
-            className='toggle'
-            type='checkbox'
-            checked={condition === 'completed'}
-            onChange={() => onToggleDone(id)}
-          />
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label>
-            <span className='description'>{label}</span>
-            <span className='created'>
-              created
-              {formatDistanceToNow(createdAt)} ago
-            </span>
-          </label>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button type='button' className='icon icon-edit' onClick={() => onEdit(id)} />
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button type='button' className='icon icon-destroy' onClick={() => onDeleted(id)} />
-        </div>
-        {condition === 'editing' && <EditForm onEditFormSubmit={onEditFormSubmit} id={id} />}
-      </li>
+      <div className='view'>
+        <input
+          className='toggle'
+          id='chekbox'
+          type='checkbox'
+          checked={condition === 'completed'}
+          onChange={() => onToggleDone(id)}
+        />
+        <label htmlFor='checkbox'>
+          <span className='title'>{label}</span>
+          <Timer minutes={minutes} seconds={seconds} />
+          <span className='description'>{`created ${formatDistanceToNow(createdAt)} ago`}</span>
+        </label>
+        <button type='button' aria-label='Edit' className='icon icon-edit' onClick={() => onEdit(id)} />
+        <button type='button' aria-label='Delete' className='icon icon-destroy' onClick={() => onDeleted(id)} />
+      </div>
     )
   }
 }
@@ -50,7 +43,6 @@ Task.propTypes = {
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   createdAt: PropTypes.number,
-  onEditFormSubmit: PropTypes.func.isRequired,
 }
 
 Task.defaultProps = {
