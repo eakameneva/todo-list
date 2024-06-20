@@ -2,21 +2,36 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Task from './Task'
-import './TaskList.css'
+import './taskList.css'
+import EditForm from './EditForm'
 
-export default function TaskList({ todos, onDeleted, onEdit, onEditFormSubmit, onToggleDone }) {
+export default function TaskList({
+  todos,
+  activeTab,
+  onDeleted,
+  onEdit,
+  onEditFormSubmit,
+  onToggleDone,
+  onEscInEditForm,
+  visibleItems,
+}) {
   const elements = todos.map((item) => (
-    <Task
-      key={item.id}
-      id={item.id}
-      createdAt={item.createdAt}
-      label={item.label}
-      condition={item.condition}
-      onDeleted={onDeleted}
-      onEdit={onEdit}
-      onEditFormSubmit={onEditFormSubmit}
-      onToggleDone={onToggleDone}
-    />
+    <li className={visibleItems(item.condition, activeTab)} key={item.id}>
+      <Task
+        id={item.id}
+        createdAt={item.createdAt}
+        label={item.label}
+        condition={item.condition}
+        onDeleted={onDeleted}
+        onEdit={onEdit}
+        onToggleDone={onToggleDone}
+        seconds={item.secondsAmount}
+        minutes={item.minutesAmount}
+      />
+      {item.condition === 'editing' && (
+        <EditForm onEditFormSubmit={onEditFormSubmit} onEscInEditForm={onEscInEditForm} id={item.id} />
+      )}
+    </li>
   ))
   if (todos.length === 0) {
     return <div className='no-items'>No items added</div>

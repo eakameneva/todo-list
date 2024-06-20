@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import NewTaskForm from './NewTaskForm'
-import './AppHeader.css'
+import './appHeader.css'
 
 function AppHeader({ onItemAdded }) {
   return (

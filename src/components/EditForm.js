@@ -9,6 +9,7 @@ class EditForm extends Component {
     }
     this.onLabelChange = this.onLabelChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onOutsideFormCLick = this.onOutsideFormCLick.bind(this)
   }
 
   onLabelChange(event) {
@@ -31,11 +32,29 @@ class EditForm extends Component {
     })
   }
 
+  onOutsideFormCLick(e) {
+    const { onEscInEditForm, id } = this.props
+    if (e.key === 'Escape') {
+      onEscInEditForm(id)
+    }
+  }
+
   render() {
     const { label } = this.state
+    const { onEscInEditForm, id } = this.props
     return (
       <form onSubmit={this.onSubmit}>
-        <input type='text' className='edit' placeholder='Editing' onChange={this.onLabelChange} value={label} />
+        <input
+          type='text'
+          className='edit'
+          placeholder='Editing'
+          /* eslint-disable-next-line jsx-a11y/no-autofocus */
+          autoFocus
+          onKeyDown={this.onOutsideFormCLick}
+          onBlur={() => onEscInEditForm(id)}
+          onChange={this.onLabelChange}
+          value={label}
+        />
       </form>
     )
   }
