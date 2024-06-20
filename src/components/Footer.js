@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './Footer.css'
+import './footer.css'
 import TasksFilter from './TasksFilter'
 
 function Footer({ todo, onClearCompleted, activeTab, onFilterChange }) {
