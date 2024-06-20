@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Task from './Task'
-import './taskList.css'
+import './TaskList.css'
 import EditForm from './EditForm'
 
 export default function TaskList({
