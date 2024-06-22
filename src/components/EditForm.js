@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 class EditForm extends Component {
   constructor(props) {
     super(props)
+    const { label } = this.props
     this.state = {
-      label: '',
+      label,
     }
     this.onLabelChange = this.onLabelChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)

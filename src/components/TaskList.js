@@ -36,7 +36,12 @@ export default function TaskList({
         minutes={item.minutesAmount}
       />
       {item.condition === 'editing' && (
-        <EditForm onEditFormSubmit={onEditFormSubmit} onEscInEditForm={onEscInEditForm} id={item.id} />
+        <EditForm
+          onEditFormSubmit={onEditFormSubmit}
+          onEscInEditForm={onEscInEditForm}
+          label={item.label}
+          id={item.id}
+        />
       )}
     </li>
   ))
