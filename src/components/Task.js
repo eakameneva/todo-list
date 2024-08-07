@@ -6,10 +6,12 @@ import PropTypes from 'prop-types'
 import Timer from './Timer'
 
 function Task({ condition, onToggleDone, id, label, createdAt, onEdit, onDeleted, seconds, minutes }) {
-  const [, setCount] = useState(0)
+  const [timeDiff, setTimeDiff] = useState(formatDistanceToNow(createdAt))
 
   useEffect(() => {
-    const interval = setInterval(() => setCount((c) => c + 1), 60000)
+    const interval = setInterval(() => {
+      setTimeDiff(formatDistanceToNow(createdAt))
+    }, 60000)
     return () => clearInterval(interval)
   }, [])
 
@@ -25,7 +27,7 @@ function Task({ condition, onToggleDone, id, label, createdAt, onEdit, onDeleted
       <label htmlFor={id}>
         <span className='title'>{label}</span>
         <Timer minutes={minutes} seconds={seconds} />
-        <span className='description'>{`created ${formatDistanceToNow(createdAt)} ago`}</span>
+        <span className='description'>{`created ${timeDiff} ago`}</span>
       </label>
       {condition === 'active' && (
         <button type='button' aria-label='Edit' className='icon icon-edit' onClick={() => onEdit(id)} />
