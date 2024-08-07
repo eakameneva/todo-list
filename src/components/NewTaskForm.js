@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 
 const SECONDS_AMOUNT_MAX = 60
 
@@ -11,30 +10,20 @@ const getItemTime = (time) => {
   return time
 }
 
-class NewTaskForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      label: '',
-      minutesAmount: '',
-      secondsAmount: '',
-    }
-    this.onLabelChange = this.onLabelChange.bind(this)
-    this.onTimeChange = this.onTimeChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+function NewTaskForm({ onItemAdded }) {
+  const [itemLabel, setItemLabel] = useState('')
+  const [timeAmount, setTimeAmount] = useState({
+    minutesAmount: '',
+    secondsAmount: '',
+  })
+
+  const onLabelChange = (event) => {
+    setItemLabel(event.target.value)
   }
 
-  onLabelChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    })
-  }
-
-  onTimeChange(event, max) {
+  const onTimeChange = (event, max) => {
     if (event.target.value === '') {
-      this.setState({
-        [event.target.name]: '',
-      })
+      setTimeAmount((time) => ({ ...time, [event.target.name]: '' }))
     }
 
     const { value, name } = event.target
@@ -48,75 +37,65 @@ class NewTaskForm extends Component {
       valueNumber = max
     }
 
-    this.setState({
-      [name]: valueNumber,
-    })
+    setTimeAmount((time) => ({ ...time, [name]: valueNumber }))
   }
 
-  onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.onSubmit(e)
-    }
-  }
-
-  onSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
-    const { label, minutesAmount, secondsAmount } = this.state
-    const trimmedLabel = label.trim()
+
+    const trimmedLabel = itemLabel.trim()
     if (trimmedLabel === '') {
       return
     }
-    const { onItemAdded } = this.props
-    onItemAdded(label, getItemTime(minutesAmount), getItemTime(secondsAmount))
-    this.setState({
-      label: '',
+
+    onItemAdded(trimmedLabel, getItemTime(timeAmount.minutesAmount), getItemTime(timeAmount.secondsAmount))
+    setTimeAmount({
       minutesAmount: '',
       secondsAmount: '',
     })
+    setItemLabel('')
+  }
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      onSubmit(e)
+    }
   }
 
-  render() {
-    const { label, minutesAmount, secondsAmount } = this.state
-    return (
-      <form className='new-todo-form' onSubmit={this.onSubmit}>
-        <input
-          className='new-todo'
-          name='label'
-          placeholder='Task'
-          /* eslint-disable-next-line jsx-a11y/no-autofocus */
-          autoFocus
-          onChange={this.onLabelChange}
-          value={label}
-          onKeyDown={this.onKeyDown}
-        />
-        <input
-          className='new-todo-form__timer'
-          placeholder='Min'
-          name='minutesAmount'
-          onChange={this.onTimeChange}
-          value={minutesAmount}
-          onKeyDown={this.onKeyDown}
-          type='text'
-          onWheel={() => document.activeElement.blur()}
-        />
-        <input
-          className='new-todo-form__timer'
-          placeholder='Sec'
-          name='secondsAmount'
-          onChange={(event) => this.onTimeChange(event, SECONDS_AMOUNT_MAX)}
-          value={secondsAmount}
-          onKeyDown={this.onKeyDown}
-          type='text'
-          max='60'
-          onWheel={() => document.activeElement.blur()}
-        />
-      </form>
-    )
-  }
-}
-
-NewTaskForm.propTypes = {
-  onItemAdded: PropTypes.func.isRequired,
+  return (
+    <form className='new-todo-form' onSubmit={onSubmit}>
+      <input
+        className='new-todo'
+        name='label'
+        placeholder='Task'
+        /* eslint-disable-next-line jsx-a11y/no-autofocus */
+        autoFocus
+        onChange={onLabelChange}
+        value={itemLabel}
+        onKeyDown={onKeyDown}
+      />
+      <input
+        className='new-todo-form__timer'
+        placeholder='Min'
+        name='minutesAmount'
+        onChange={onTimeChange}
+        value={timeAmount.minutesAmount}
+        onKeyDown={onKeyDown}
+        type='text'
+        onWheel={() => document.activeElement.blur()}
+      />
+      <input
+        className='new-todo-form__timer'
+        placeholder='Sec'
+        name='secondsAmount'
+        onChange={(event) => onTimeChange(event, SECONDS_AMOUNT_MAX)}
+        value={timeAmount.secondsAmount}
+        onKeyDown={onKeyDown}
+        type='text'
+        max='60'
+        onWheel={() => document.activeElement.blur()}
+      />
+    </form>
+  )
 }
 
 export default NewTaskForm

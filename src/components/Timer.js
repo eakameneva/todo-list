@@ -1,70 +1,64 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-export default class Timer extends Component {
-  constructor(props) {
-    super(props)
-    const { minutes, seconds } = props
+export default function Timer({ minutes, seconds }) {
+  const timerRef = useRef(null)
+  const [isRunning, setIsRunning] = useState(false)
+  const [timeLeft, setTimeLeft] = useState({
+    minutesLeft: minutes,
+    secondsLeft: seconds,
+  })
 
-    this.state = {
-      isRunning: false,
-      minutesLeft: minutes,
-      secondsLeft: seconds,
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { minutes, seconds } = this.props
-    if (minutes !== prevProps.minutes || seconds !== prevProps.seconds) {
-      this.setState({
+  useEffect(() => {
+    if (!isRunning) {
+      setTimeLeft({
         minutesLeft: minutes,
         secondsLeft: seconds,
       })
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer)
-  }
-
-  onPlay = () => {
-    this.timer = setInterval(() => {
-      const { minutesLeft, secondsLeft } = this.state
-      if (secondsLeft < 1 && minutesLeft > 0) {
-        this.setState((prevState) => ({
-          minutesLeft: prevState.minutesLeft - 1,
-          secondsLeft: 59,
-        }))
-      } else if (secondsLeft === 0 && minutesLeft < 1) {
-        clearInterval(this.timer)
-        this.setState({ isRunning: false })
-      } else {
-        this.setState((prevState) => ({
-          secondsLeft: prevState.secondsLeft - 1,
-        }))
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
       }
-    }, 1000)
-    this.setState({ isRunning: true })
+    }
+  }, [minutes, seconds])
+
+  const onPlay = () => {
+    if (!timerRef.current) {
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime.secondsLeft < 1 && prevTime.minutesLeft > 0) {
+            return {
+              minutesLeft: prevTime.minutesLeft - 1,
+              secondsLeft: 59,
+            }
+          }
+          if (prevTime.secondsLeft === 0 && prevTime.minutesLeft < 1) {
+            clearInterval(timerRef.current)
+            setIsRunning(false)
+            timerRef.current = null
+            return prevTime
+          }
+          return { ...prevTime, secondsLeft: prevTime.secondsLeft - 1 }
+        })
+      }, 1000)
+      setIsRunning(true)
+    }
   }
 
-  onPause = () => {
-    clearInterval(this.timer)
-    this.setState({ isRunning: false })
+  const onPause = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
+    setIsRunning(false)
   }
-
-  render() {
-    const { isRunning, minutesLeft, secondsLeft } = this.state
-    return (
-      <span className='description'>
-        <button type='button' aria-label='Play' className='icon icon-play' onClick={this.onPlay} disabled={isRunning} />
-        <button
-          type='button'
-          aria-label='Pause'
-          className='icon icon-pause'
-          onClick={this.onPause}
-          disabled={!isRunning}
-        />
-        {secondsLeft < 10 ? ` ${minutesLeft}:0${secondsLeft}` : ` ${minutesLeft}:${secondsLeft}`}
-      </span>
-    )
-  }
+  return (
+    <span className='description'>
+      <button type='button' aria-label='Play' className='icon icon-play' onClick={onPlay} disabled={isRunning} />
+      <button type='button' aria-label='Pause' className='icon icon-pause' onClick={onPause} disabled={!isRunning} />
+      {timeLeft.secondsLeft < 10
+        ? ` ${timeLeft.minutesLeft}:0${timeLeft.secondsLeft}`
+        : ` ${timeLeft.minutesLeft}:${timeLeft.secondsLeft}`}
+    </span>
+  )
 }

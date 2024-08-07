@@ -1,64 +1,44 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-class EditForm extends Component {
-  constructor(props) {
-    super(props)
-    const { label } = this.props
-    this.state = {
-      label,
-    }
-    this.onLabelChange = this.onLabelChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onOutsideFormCLick = this.onOutsideFormCLick.bind(this)
+function EditForm({ label, onEscInEditForm, onEditFormSubmit, id }) {
+  const [editLabel, setEditLabel] = useState(label)
+
+  const onLabelChange = (event) => {
+    setEditLabel(event.target.value)
   }
 
-  onLabelChange(event) {
-    this.setState({
-      label: event.target.value,
-    })
-  }
-
-  onSubmit(event) {
+  const onSubmit = (event) => {
     event.preventDefault()
-    const { label } = this.state
-    const trimmedLabel = label.trim()
+    const trimmedLabel = editLabel.trim()
     if (trimmedLabel === '') {
       return
     }
-    const { onEditFormSubmit, id } = this.props
-    onEditFormSubmit(id, label)
-    this.setState({
-      label: '',
-    })
+    onEditFormSubmit(id, trimmedLabel)
+    setEditLabel('')
   }
 
-  onOutsideFormCLick(e) {
-    const { onEscInEditForm, id } = this.props
+  const onOutsideFormClick = (e) => {
     if (e.key === 'Escape') {
       onEscInEditForm(id)
     }
   }
 
-  render() {
-    const { label } = this.state
-    const { onEscInEditForm, id } = this.props
-    return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          type='text'
-          className='edit'
-          placeholder='Editing'
-          /* eslint-disable-next-line jsx-a11y/no-autofocus */
-          autoFocus
-          onKeyDown={this.onOutsideFormCLick}
-          onBlur={() => onEscInEditForm(id)}
-          onChange={this.onLabelChange}
-          value={label}
-        />
-      </form>
-    )
-  }
+  return (
+    <form onSubmit={onSubmit}>
+      <input
+        type='text'
+        className='edit'
+        placeholder='Editing'
+        /* eslint-disable-next-line jsx-a11y/no-autofocus */
+        autoFocus
+        onKeyDown={onOutsideFormClick}
+        onBlur={() => onEscInEditForm(id)}
+        onChange={onLabelChange}
+        value={editLabel}
+      />
+    </form>
+  )
 }
 
 EditForm.propTypes = {

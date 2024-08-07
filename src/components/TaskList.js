@@ -6,7 +6,7 @@ import './TaskList.css'
 import EditForm from './EditForm'
 
 const isItemVisible = (activeTab, condition) => {
-  if (activeTab === 'all' || activeTab === 'editing') {
+  if (activeTab === 'all' || condition === 'editing') {
     return true
   }
 
