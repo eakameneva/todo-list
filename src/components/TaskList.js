@@ -32,8 +32,7 @@ export default function TaskList({
         onDeleted={onDeleted}
         onEdit={onEdit}
         onToggleDone={onToggleDone}
-        seconds={item.secondsAmount}
-        minutes={item.minutesAmount}
+        milliseconds={item.milliseconds}
       />
       {item.condition === 'editing' && (
         <EditForm

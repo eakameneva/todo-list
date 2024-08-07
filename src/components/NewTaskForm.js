@@ -1,20 +1,14 @@
 import React, { useState } from 'react'
 
+import { convertToMilliseconds } from '../helpers/date'
+
 const SECONDS_AMOUNT_MAX = 60
-
-const getItemTime = (time) => {
-  if (!time) {
-    return 0
-  }
-
-  return time
-}
 
 function NewTaskForm({ onItemAdded }) {
   const [itemLabel, setItemLabel] = useState('')
   const [timeAmount, setTimeAmount] = useState({
-    minutesAmount: '',
-    secondsAmount: '',
+    minutesAmount: 0,
+    secondsAmount: 0,
   })
 
   const onLabelChange = (event) => {
@@ -23,7 +17,7 @@ function NewTaskForm({ onItemAdded }) {
 
   const onTimeChange = (event, max) => {
     if (event.target.value === '') {
-      setTimeAmount((time) => ({ ...time, [event.target.name]: '' }))
+      setTimeAmount((time) => ({ ...time, [event.target.name]: 0 }))
     }
 
     const { value, name } = event.target
@@ -48,10 +42,10 @@ function NewTaskForm({ onItemAdded }) {
       return
     }
 
-    onItemAdded(trimmedLabel, getItemTime(timeAmount.minutesAmount), getItemTime(timeAmount.secondsAmount))
+    onItemAdded(trimmedLabel, convertToMilliseconds(timeAmount.minutesAmount, timeAmount.secondsAmount))
     setTimeAmount({
-      minutesAmount: '',
-      secondsAmount: '',
+      minutesAmount: 0,
+      secondsAmount: 0,
     })
     setItemLabel('')
   }
@@ -78,7 +72,7 @@ function NewTaskForm({ onItemAdded }) {
         placeholder='Min'
         name='minutesAmount'
         onChange={onTimeChange}
-        value={timeAmount.minutesAmount}
+        value={timeAmount.minutesAmount || ''}
         onKeyDown={onKeyDown}
         type='text'
         onWheel={() => document.activeElement.blur()}
@@ -88,7 +82,7 @@ function NewTaskForm({ onItemAdded }) {
         placeholder='Sec'
         name='secondsAmount'
         onChange={(event) => onTimeChange(event, SECONDS_AMOUNT_MAX)}
-        value={timeAmount.secondsAmount}
+        value={timeAmount.secondsAmount || ''}
         onKeyDown={onKeyDown}
         type='text'
         max='60'

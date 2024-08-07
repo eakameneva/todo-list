@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-export default function Timer({ minutes, seconds }) {
+import { convertToTimeUnits } from '../helpers/date'
+
+export default function Timer({ milliseconds }) {
+  const [minutes, seconds] = convertToTimeUnits(milliseconds)
   const timerRef = useRef(null)
   const [isRunning, setIsRunning] = useState(false)
   const [timeLeft, setTimeLeft] = useState({

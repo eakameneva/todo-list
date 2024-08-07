@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import Timer from './Timer'
 
-function Task({ condition, onToggleDone, id, label, createdAt, onEdit, onDeleted, seconds, minutes }) {
+function Task({ condition, onToggleDone, id, label, createdAt, onEdit, onDeleted, milliseconds }) {
   const [timeDiff, setTimeDiff] = useState(formatDistanceToNow(createdAt))
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function Task({ condition, onToggleDone, id, label, createdAt, onEdit, onDeleted
       />
       <label htmlFor={id}>
         <span className='title'>{label}</span>
-        <Timer minutes={minutes} seconds={seconds} />
+        <Timer milliseconds={milliseconds} />
         <span className='description'>{`created ${timeDiff} ago`}</span>
       </label>
       {condition === 'active' && (

@@ -32,7 +32,7 @@ function App() {
       const newArray = prevData.map((item) => {
         if (id !== item.id) return item
         if (item.condition === 'active') {
-          return { ...item, condition: 'completed', minutesAmount: 0, secondsAmount: 0 }
+          return { ...item, condition: 'completed', milliseconds: 0 }
         }
         return { ...item, condition: 'active' }
       })
@@ -74,14 +74,13 @@ function App() {
     })
   }
 
-  const addItem = (text, min, sec) => {
+  const addItem = (text, milliseconds) => {
     const newItem = {
       label: text,
       id: maxId.current + 1,
       condition: 'active',
       createdAt: Date.now(),
-      minutesAmount: min,
-      secondsAmount: sec,
+      milliseconds,
     }
     maxId.current += 1
     setTodoData((prevData) => {
@@ -90,7 +89,7 @@ function App() {
     })
   }
 
-  const todoCount = todoData.filter((item) => item.condition === 'active').length
+  const activeTasksCount = todoData.filter((item) => item.condition === 'active').length
   return (
     <div className='todoapp'>
       <section className='main'>
@@ -104,7 +103,12 @@ function App() {
           onToggleDone={onToggleDone}
           onEditFormSubmit={onEditFormSubmit}
         />
-        <Footer todo={todoCount} onClearCompleted={clearCompleted} activeTab={tab} onFilterChange={onFilterChange} />
+        <Footer
+          count={activeTasksCount}
+          onClearCompleted={clearCompleted}
+          activeTab={tab}
+          onFilterChange={onFilterChange}
+        />
       </section>
     </div>
   )
