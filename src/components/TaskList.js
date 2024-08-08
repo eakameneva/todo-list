@@ -6,7 +6,7 @@ import './TaskList.css'
 import EditForm from './EditForm'
 
 const isItemVisible = (activeTab, condition) => {
-  if (activeTab === 'all' || activeTab === 'editing') {
+  if (activeTab === 'all' || condition === 'editing') {
     return true
   }
 
@@ -32,8 +32,7 @@ export default function TaskList({
         onDeleted={onDeleted}
         onEdit={onEdit}
         onToggleDone={onToggleDone}
-        seconds={item.secondsAmount}
-        minutes={item.minutesAmount}
+        milliseconds={item.milliseconds}
       />
       {item.condition === 'editing' && (
         <EditForm
